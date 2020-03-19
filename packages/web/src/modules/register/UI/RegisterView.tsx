@@ -1,0 +1,87 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import * as React from "react";
+import { withFormik, FormikErrors, FormikProps } from "formik";
+import { Form, Input, Button, Checkbox } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
+import "./RegisterView.css";
+
+type FormValues = {
+  email: string;
+  password: string;
+};
+
+interface Props {
+  submit: (values: FormValues) => Promise<FormikErrors<FormValues> | null>;
+}
+
+const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
+  return (
+    <div style={{ display: "flex" }}>
+      <div style={{ margin: "auto" }}>
+        <Form
+          onSubmitCapture={props.handleSubmit}
+          initialValues={{ remember: true }}
+          //   onFinish={onFinish}
+        >
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Email"
+              onChange={props.handleChange}
+              value={props.values.email}
+              onBlur={props.handleBlur}
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+              onChange={props.handleChange}
+              value={props.values.password}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <a className="login-form-forgot" href="">
+              Forgot password
+            </a>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+            <div style={{ display: "block", textAlign: "center" }}>
+              <a href="">register</a>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export const RegisterView = withFormik<Props, FormValues>({
+  mapPropsToValues: () => ({ email: "", password: "" }),
+  handleSubmit: async (values, { setErrors, props }) => {
+    const errors = await props.submit(values);
+    if (errors) {
+      setErrors(errors);
+    }
+  }
+})(MyForm);
