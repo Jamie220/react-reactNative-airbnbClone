@@ -113,8 +113,8 @@ const validationSchema = yup.object().shape({
 
 export const RegisterView = withFormik<Props, FormValues>({
   validationSchema,
-  validateOnChange: false,
-  validateOnBlur: false,
+  //   validateOnChange: false,
+  //   validateOnBlur: false,
   mapPropsToValues: () => ({ email: "", password: "" }),
   handleSubmit: async (values, { setErrors, props }) => {
     const errors = await props.submit(values);
