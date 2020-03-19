@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
+import * as yup from "yup";
 import { withFormik, FormikErrors, FormikProps } from "formik";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -25,6 +26,14 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
           //   onFinish={onFinish}
         >
           <Form.Item
+            help={
+              props.touched.email && props.errors.email
+                ? props.errors.email
+                : null
+            }
+            validateStatus={
+              props.touched.email && props.errors.email ? "error" : "validating"
+            }
             name="email"
             rules={[{ required: true, message: "Please input your Email!" }]}
           >
@@ -37,6 +46,14 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
             />
           </Form.Item>
           <Form.Item
+            help={
+              props.touched.password && props.errors.password
+                ? props.errors.password
+                : null
+            }
+            validateStatus={
+              props.touched.email && props.errors.email ? "error" : "validating"
+            }
             name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}
           >
@@ -76,7 +93,28 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
   );
 };
 
+const emailNotLongEnough = "email must be at least 3 characters";
+const passwordNotLongEnough = "password must be at least 3 characters";
+const invalidEmail = "email must be a valid email";
+
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .min(3, emailNotLongEnough)
+    .max(255)
+    .email(invalidEmail)
+    .required(),
+  password: yup
+    .string()
+    .min(3, passwordNotLongEnough)
+    .max(255)
+    .required()
+});
+
 export const RegisterView = withFormik<Props, FormValues>({
+  validationSchema,
+  //   validateOnChange: false,
+  //   validateOnBlur: false,
   mapPropsToValues: () => ({ email: "", password: "" }),
   handleSubmit: async (values, { setErrors, props }) => {
     const errors = await props.submit(values);
