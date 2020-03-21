@@ -20,3 +20,5 @@ This project is made up of 5 packages that share code using Yarn Workspaces.
 
 - TypeScript
 - Ant Design
+- Formik
+- Apollo
