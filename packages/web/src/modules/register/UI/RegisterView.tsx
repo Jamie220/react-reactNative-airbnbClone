@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-import * as yup from "yup";
+// import * as yup from "yup";
 import { withFormik, FormikErrors, FormikProps } from "formik";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { validUserSchema } from "@airbnb/common";
 
 import "./RegisterView.css";
 
@@ -93,26 +94,8 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
   );
 };
 
-const emailNotLongEnough = "email must be at least 3 characters";
-const passwordNotLongEnough = "password must be at least 3 characters";
-const invalidEmail = "email must be a valid email";
-
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(invalidEmail)
-    .required(),
-  password: yup
-    .string()
-    .min(3, passwordNotLongEnough)
-    .max(255)
-    .required()
-});
-
 export const RegisterView = withFormik<Props, FormValues>({
-  validationSchema,
+  validationSchema: validUserSchema,
   //   validateOnChange: false,
   //   validateOnBlur: false,
   mapPropsToValues: () => ({ email: "", password: "" }),
