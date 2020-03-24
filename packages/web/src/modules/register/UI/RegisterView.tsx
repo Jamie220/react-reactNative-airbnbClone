@@ -1,82 +1,56 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from "react";
-// import * as yup from "yup";
-import { withFormik, FormikErrors, FormikProps } from "formik";
-import { Form, Input, Button, Checkbox } from "antd";
+
+import { withFormik, FormikErrors, FormikProps, Field } from "formik";
+import { Form as AntForm, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { validUserSchema } from "@airbnb/common";
 
 import "./RegisterView.css";
+import { InputField } from "../../shared/inputField";
 
 type FormValues = {
   email: string;
   password: string;
 };
 
-interface Props {
+interface MyFormProps {
   submit: (values: FormValues) => Promise<FormikErrors<FormValues> | null>;
 }
 
-const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
+const MyForm: React.SFC<FormikProps<FormValues> & MyFormProps> = props => {
   return (
     <div style={{ display: "flex" }}>
       <div style={{ margin: "auto" }}>
-        <Form
+        <AntForm
           onSubmitCapture={props.handleSubmit}
           initialValues={{ remember: true }}
           //   onFinish={onFinish}
         >
-          <Form.Item
-            help={
-              props.touched.email && props.errors.email
-                ? props.errors.email
-                : null
-            }
-            validateStatus={
-              props.touched.email && props.errors.email ? "error" : "validating"
-            }
+          <Field
             name="email"
-            rules={[{ required: true, message: "Please input your Email!" }]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Email"
-              onChange={props.handleChange}
-              value={props.values.email}
-              onBlur={props.handleBlur}
-            />
-          </Form.Item>
-          <Form.Item
-            help={
-              props.touched.password && props.errors.password
-                ? props.errors.password
-                : null
-            }
-            validateStatus={
-              props.touched.email && props.errors.email ? "error" : "validating"
-            }
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Email"
+            component={InputField}
+          />
+          <Field
             name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-              onChange={props.handleChange}
-              value={props.values.password}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
+            type="password"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            placeholder="Password"
+            component={InputField}
+          />
+          <AntForm.Item>
+            <AntForm.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
-            </Form.Item>
+            </AntForm.Item>
 
             <a className="login-form-forgot" href="">
               Forgot password
             </a>
-          </Form.Item>
+          </AntForm.Item>
 
-          <Form.Item>
+          <AntForm.Item>
             <Button
               type="primary"
               htmlType="submit"
@@ -87,14 +61,14 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
             <div style={{ display: "block", textAlign: "center" }}>
               <a href="">register</a>
             </div>
-          </Form.Item>
-        </Form>
+          </AntForm.Item>
+        </AntForm>
       </div>
     </div>
   );
 };
 
-export const RegisterView = withFormik<Props, FormValues>({
+export const RegisterView = withFormik<MyFormProps, FormValues>({
   validationSchema: validUserSchema,
   //   validateOnChange: false,
   //   validateOnBlur: false,
