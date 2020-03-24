@@ -4,7 +4,7 @@ import * as React from "react";
 import { withFormik, FormikErrors, FormikProps } from "formik";
 import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { validationSchema } from "@airbnb/common";
+import { validUserSchema } from "@airbnb/common";
 
 import "./RegisterView.css";
 
@@ -95,7 +95,7 @@ const MyForm: React.SFC<FormikProps<FormValues> & Props> = props => {
 };
 
 export const RegisterView = withFormik<Props, FormValues>({
-  validationSchema,
+  validationSchema: validUserSchema,
   //   validateOnChange: false,
   //   validateOnBlur: false,
   mapPropsToValues: () => ({ email: "", password: "" }),
