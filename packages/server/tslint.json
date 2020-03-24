@@ -1,14 +1,7 @@
 {
   "defaultSeverity": "error",
-  "extends": ["../../tslint.json"],
+  "extends": ["tslint:recommended"],
   "jsRules": {},
-  "rules": {
-    "no-console": false,
-    "member-access": false,
-    "object-literal-sort-keys": false,
-    "ordered-imports": false,
-    "interface-name": false,
-    "no-submodule-imports": false
-  },
+  "rules": { "object-literal-sort-keys": false, "trailing-comma": false },
   "rulesDirectory": []
 }
