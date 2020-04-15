@@ -1,17 +1,20 @@
 import * as React from "react";
+import { RegisterController } from "@airbnb/controller";
+
 import { RegisterView } from "./UI/RegisterView";
 
 // container -> view
 
 //container -> connector (react & react-native) - view
 
-export class RegisterConnector extends React.PureComponent {
-  dummySubmit = async (values: any) => {
-    console.log(values);
-    return null;
-  };
+//controller -> connector -> view
 
+export class RegisterConnector extends React.PureComponent {
   render() {
-    return <RegisterView submit={this.dummySubmit} />;
+    return (
+      <RegisterController>
+        {({ submit }) => <RegisterView submit={submit} />}
+      </RegisterController>
+    );
   }
 }
