@@ -24,7 +24,8 @@
     "react-scripts": "3.4.0",
     "typescript": "~3.7.2",
     "yup": "^0.28.3",
-    "@airbnb/common": "1.0.0"
+    "@airbnb/common": "1.0.0",
+    "@airbnb/controller": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
